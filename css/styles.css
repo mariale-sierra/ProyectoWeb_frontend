@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffe4ec;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #ff4da6;
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background-color: #ffb6c1;
+    color: white;
+}
+
+button {
+    border-radius: 8px;
+    background-color: #ff85a2;
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: #ff5c8a;
+}
+
+td {
+  background-color: #fff;
+}
+
+tr:nth-child(even) td {
+  background-color: #ffe4ec;
+}
