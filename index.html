@@ -2,30 +2,59 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Series Tracker</title>
+  <title>Letterboxd Series Tracker</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <header class="navbar">
+    <div class="nav-content">
+    <div class="logo">
+      <span class="circle orange"></span>
+      <span class="circle green"></span>
+      <span class="circle blue"></span>
+      <span class="name">Letterboxd</span>
+    </div>
 
-  <h1>Series Tracker</h1>
+    <nav class="nav-links">
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('search')">Search</button>
+      <button onclick="showSection('ratings')">Ratings</button>
+    </nav>
+    </div>
+  </header>
+  <div class="container">
+    <section id="home" class="section">
+      <h1>My Series Tracker</h1>
+      <div class="add-container">
+        <button id="add-btn" class="add-btn">Add Series</button>
+      </div>
 
-  <div class="add-container">
-    <button id="add-btn" class="add-btn">Add Series</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Current/Total</th>
+            <th>Episodes left</th>
+            <th>Update</th>
+          </tr>
+        </thead>
+        <tbody id="series-body"></tbody>
+      </table>
+    </section>
+
+    <section id="search" class="section hidden">
+      <input type="text" id="search-input" placeholder="Search series...">
+      <button onclick="searchSeries()">Search</button>
+
+      <div id="search-results"></div>
+    </section>
+
+    <section id="ratings" class="section hidden">
+      <h2>My Ratings</h2>
+      <div id="ratings-list"></div>
+    </section>
+
   </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Current</th>
-        <th>Total</th>
-        <th>Next</th>
-        <th>Rating</th>
-      </tr>
-    </thead>
-    <tbody id="series-body"></tbody>
-  </table>
 
   <script type="module" src="js/app.js"></script>
 </body>
