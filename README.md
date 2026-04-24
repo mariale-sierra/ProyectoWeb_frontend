@@ -1,5 +1,8 @@
 # 📦 Series Tracker - Frontend
 
+## Link a repositorio de backend
+https://github.com/mariale-sierra/ProyectoWeb_backend.git 
+
 ## App Corriendo
 <img width="1867" height="883" alt="image" src="https://github.com/user-attachments/assets/853e815d-2460-42e3-937b-2c44c3e1d129" />
 <img width="1753" height="494" alt="image" src="https://github.com/user-attachments/assets/38c7f9dc-6400-4497-9f86-3c5f2d7f5acd" />
