@@ -1,4 +1,3 @@
-import { getSeries } from "./backend.js"
 
 let currentPage = 1
 let currentSort = "id"
@@ -92,21 +91,11 @@ async function rateSeries(id) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      episode: 1,
       rating: rating
     })
   })
 }
 window.rateSeries = rateSeries
-
-
-async function getSeriesRatings(id) {
-  const res = await fetch(`http://localhost:8080/series/${id}/rating`)
-  const data = await res.json()
-
-  console.log(data)
-}
-window.getSeriesRatings = getSeriesRatings
 
 
 function showSection(sectionId) {
