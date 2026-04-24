@@ -45,6 +45,15 @@ nohup ./app &
 - Abrir en el navegador:
 http://35.239.29.236
 
+## Challenges
+- [Subjetivo] Calidad visual del cliente — ¿Se ve como una app real o como una tarea?	0 – 30
+- [Subjetivo] Calidad del historial de Git — commits descriptivos, progresión lógica, no un solo commit con todo	0 – 20
+- [Subjetivo] Organización del código — archivos separados con responsabilidades claras, en ambos repositorios	0 – 20
+- Paginación en GET /series con parámetros ?page= y ?limit=	30
+- Búsqueda por nombre con ?q=	15
+- Ordenamiento con ?sort= y ?order=asc|desc	15
+- Sistema de rating — tabla propia en la base de datos, endpoints REST propios (POST /series/:id/rating, GET /series/:id/rating, etc.), y visible en el cliente.	30
+
 ## Reflexión
 
 El frontend fue desarrollado completamente en JavaScript vanilla, lo cual permitió entender mejor cómo funciona el DOM, los eventos y la comunicación con APIs sin depender de frameworks.
