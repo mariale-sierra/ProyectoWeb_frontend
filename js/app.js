@@ -16,7 +16,7 @@ async function loadHome(page = 1) {
   const order = currentOrder || "asc"
 
   const res = await fetch(
-    `http://localhost:8080/series?page=${currentPage}&limit=5&sort=${sort}&order=${order}`
+    `/series?page=${currentPage}&limit=5&sort=${sort}&order=${order}`
   )
   const data = await res.json()
 
@@ -67,7 +67,7 @@ function render(series) {
 
 
 async function nextEpisode(id) {
-  await fetch(`http://localhost:8080/update?id=${id}`, {
+  await fetch(`/update?id=${id}`, {
     method: "POST"
   })
 
@@ -85,7 +85,7 @@ async function rateSeries(id) {
     return
   }
 
-  await fetch(`http://localhost:8080/series/${id}/rating`, {
+  await fetch(`/series/${id}/rating`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -114,7 +114,7 @@ window.showSection = showSection
 async function searchSeries() {
   const query = document.getElementById("search-input").value
 
-  const res = await fetch(`http://localhost:8080/series?q=${query}`)
+  const res = await fetch(`/series?q=${query}`)
   const data = await res.json()
 
   const container = document.getElementById("search-results")
@@ -140,7 +140,7 @@ window.searchSeries = searchSeries
 
 
 async function addSeries(id) {
-  await fetch("http://localhost:8080/add", {
+  await fetch("/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -156,7 +156,7 @@ async function addSeries(id) {
 window.addSeries = addSeries
 
 async function loadRatingControls() {
-  const res = await fetch("http://localhost:8080/ratings")
+  const res = await fetch("/ratings")
   const data = await res.json()
 
   const container = document.getElementById("ratings-controls")
@@ -202,7 +202,7 @@ async function createSeries() {
     return
   }
 
-  await fetch("http://localhost:8080/create", {
+  await fetch("/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -219,7 +219,7 @@ async function createSeries() {
 window.createSeries = createSeries
 
 async function deleteSeries(id) {
-  await fetch(`http://localhost:8080/series/${id}`, {
+  await fetch(`/series/${id}`, {
     method: "DELETE"
   })
 
