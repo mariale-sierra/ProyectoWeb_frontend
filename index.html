@@ -37,6 +37,11 @@
         </thead>
         <tbody id="series-body"></tbody>
       </table>
+
+      <div class="pagination">
+        <button onclick="loadHome(currentPage - 1)">Prev</button>
+        <button onclick="loadHome(currentPage + 1)">Next</button>
+      </div>
     </section>
 
     <section id="search" class="section hidden">
@@ -48,7 +53,7 @@
 
     <section id="ratings" class="section hidden">
       <h2>My Ratings</h2>
-      <div id="ratings-list"></div>
+      <div id="ratings-controls"></div>
     </section>
 
   </div>

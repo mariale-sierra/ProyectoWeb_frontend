@@ -1,16 +1,23 @@
 import { getSeries } from "./backend.js"
 
+let currentPage = 1
+window.currentPage = currentPage
+
 window.onload = () => {
   loadHome()
 }
 
+async function loadHome(page = 1) {
+  currentPage = Math.max(1, page)
+  window.currentPage = currentPage
 
-async function loadHome() {
-  const res = await fetch("http://localhost:8080/series")
+  const res = await fetch(`http://localhost:8080/series?page=${currentPage}&limit=5`)
   const data = await res.json()
 
   render(data)
 }
+window.loadHome = loadHome
+
 function render(series) {
   const tbody = document.getElementById("series-body")
   tbody.innerHTML = ""
@@ -40,9 +47,41 @@ async function nextEpisode(id) {
     method: "POST"
   })
 
-  loadHome()
+  loadHome(currentPage)
 }
 window.nextEpisode = nextEpisode
+
+
+async function rateSeries(id) {
+  const input = document.getElementById(`rating-${id}`)
+  const rating = Number(input.value)
+
+  if (Number.isNaN(rating) || rating < 0 || rating > 10) {
+    alert("Please enter a rating between 0 and 10")
+    return
+  }
+
+  await fetch(`http://localhost:8080/series/${id}/rating`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      episode: 1,
+      rating: rating
+    })
+  })
+}
+window.rateSeries = rateSeries
+
+
+async function getSeriesRatings(id) {
+  const res = await fetch(`http://localhost:8080/series/${id}/rating`)
+  const data = await res.json()
+
+  console.log(data)
+}
+window.getSeriesRatings = getSeriesRatings
 
 
 function showSection(sectionId) {
@@ -52,7 +91,7 @@ function showSection(sectionId) {
   document.getElementById(sectionId).classList.remove("hidden")
 
   if (sectionId === "ratings") {
-    loadRatings()
+    loadRatingControls()
   }
 }
 window.showSection = showSection
@@ -75,7 +114,7 @@ async function searchSeries() {
     div.innerHTML = `
       <h3>${s.name}</h3>
       <p>${s.total_episodes} episodes</p>
-      <button onclick="addSeries('${s.name}', ${s.total_episodes})">
+      <button onclick="addSeries(${s.id})">
         Add Series
       </button>
     `
@@ -86,43 +125,50 @@ async function searchSeries() {
 window.searchSeries = searchSeries
 
 
-async function addSeries(name, total) {
-  await fetch("http://localhost:8080/series", {
+async function addSeries(id) {
+  await fetch("http://localhost:8080/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      name: name,
-      current_episode: 1,
-      total_episodes: total
+      id: id
     })
   })
 
-  // volver a home y recargar
   showSection("home")
-  loadHome()
+  loadHome(1)
 }
 window.addSeries = addSeries
 
-
-async function loadRatings() {
+async function loadRatingControls() {
   const res = await fetch("http://localhost:8080/ratings")
   const data = await res.json()
 
-  const container = document.getElementById("ratings-list")
+  const container = document.getElementById("ratings-controls")
   container.innerHTML = ""
 
-  data.forEach(r => {
+  data.forEach(s => {
     const div = document.createElement("div")
 
     div.classList.add("rating-row")
 
     div.innerHTML = `
-      <span>${r.name}</span>
-      <span class="rating">${r.rating}</span>
+      <span class="series-name">${s.name}</span>
+
+      <div class="rating-actions">
+        <input 
+          type="number" 
+          min="0" 
+          max="10" 
+          id="rating-${s.id}" 
+          value="${s.rating ?? ""}"
+        >
+        <button onclick="rateSeries(${s.id})">Save</button>
+      </div>
     `
 
     container.appendChild(div)
   })
 }
+window.loadRatingControls = loadRatingControls
