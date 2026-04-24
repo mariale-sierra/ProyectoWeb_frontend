@@ -1,6 +1,8 @@
 import { getSeries } from "./backend.js"
 
 let currentPage = 1
+let currentSort = "id"
+let currentOrder = "asc"
 window.currentPage = currentPage
 
 window.onload = () => {
@@ -11,12 +13,29 @@ async function loadHome(page = 1) {
   currentPage = Math.max(1, page)
   window.currentPage = currentPage
 
-  const res = await fetch(`http://localhost:8080/series?page=${currentPage}&limit=5`)
+  const sort = currentSort || "id"
+  const order = currentOrder || "asc"
+
+  const res = await fetch(
+    `http://localhost:8080/series?page=${currentPage}&limit=5&sort=${sort}&order=${order}`
+  )
   const data = await res.json()
 
   render(data)
 }
 window.loadHome = loadHome
+
+function sortBy(field) {
+  if (currentSort === field) {
+    currentOrder = currentOrder === "asc" ? "desc" : "asc"
+  } else {
+    currentSort = field
+    currentOrder = "asc"
+  }
+
+  loadHome(1)
+}
+window.sortBy = sortBy
 
 function render(series) {
   const tbody = document.getElementById("series-body")
@@ -29,11 +48,17 @@ function render(series) {
     const remaining = s.total_episodes - s.current_episode
 
     tr.innerHTML = `
+      <td>
+        <img src="${s.image || 'https://picsum.photos/50'}" width="40">
+      </td>
       <td>${s.name}</td>
       <td>${s.current_episode} / ${s.total_episodes}</td>
       <td>${remaining} left</td>
       <td>
         <button onclick="nextEpisode(${s.id})">Next</button>
+      </td>
+      <td>
+        <button onclick="deleteSeries(${s.id})">Delete</button>
       </td>
     `
 
@@ -172,3 +197,43 @@ async function loadRatingControls() {
   })
 }
 window.loadRatingControls = loadRatingControls
+
+function showCreateForm() {
+  document.getElementById("create-form").classList.toggle("hidden")
+}
+window.showCreateForm = showCreateForm
+
+async function createSeries() {
+  const name = document.getElementById("new-name").value
+  const total = Number(document.getElementById("new-total").value)
+  const image = document.getElementById("new-image").value
+
+  if (!name || total < 1) {
+    alert("Invalid input")
+    return
+  }
+
+  await fetch("http://localhost:8080/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: name,
+      total_episodes: total,
+      image: image
+    })
+  })
+
+  loadHome(1)
+}
+window.createSeries = createSeries
+
+async function deleteSeries(id) {
+  await fetch(`http://localhost:8080/series/${id}`, {
+    method: "DELETE"
+  })
+
+  loadHome(currentPage)
+}
+window.deleteSeries = deleteSeries

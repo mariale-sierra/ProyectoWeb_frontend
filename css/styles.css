@@ -213,3 +213,13 @@ input[type="number"] {
   align-items: center;
   gap: 10px;
 }
+
+.series-actions {
+  margin: 15px 0;
+}
+
+#create-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}

@@ -25,10 +25,26 @@
   <div class="container">
     <section id="home" class="section">
       <h1>My Series Tracker</h1>
+      <div class="series-actions">
+        <button onclick="showCreateForm()">Create Series</button>
+      </div>
+
+      <div id="create-form" class="hidden">
+        <input type="text" id="new-name" placeholder="Series name">
+        <input type="number" id="new-total" placeholder="Total episodes">
+        <input type="text" id="new-image" placeholder="Image URL">
+        <button onclick="createSeries()">Save</button>
+      </div>
+
+      <div class="sort-controls">
+        <button onclick="sortBy('name')">Sort Name</button>
+        <button onclick="sortBy('current_episode')">Sort Progress</button>
+      </div>
 
       <table>
         <thead>
           <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Current/Total</th>
             <th>Episodes left</th>
